@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Let's Travel! Likes, Trips and Exchanges — Unit 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+
+  :root{
+    --sun-50:#fff7f0; --sun-100:#ffead6; --sun-200:#ffcfa0; --sun-400:#ff9d47;
+    --sun-500:#f2761c; --sun-600:#d35a0a;
+    --ink-900:#3a2a1c; --ink-700:#5c4632; --ink-500:#8a7157;
+    --paper:#ffffff; --line:#f6e0c8;
+    --good:#1b9e6b; --good-bg:#e7f8f0; --bad:#d1495b; --bad-bg:#fdecee;
+    --shadow: 0 10px 30px -14px rgba(180,80,10,0.28);
+    --radius-card: 18px; --radius-pill: 999px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:
+      radial-gradient(1100px 480px at 12% -10%, var(--sun-100), transparent 60%),
+      radial-gradient(900px 420px at 100% 0%, var(--sun-50), transparent 55%),
+      var(--sun-50);
+    color:var(--ink-900); min-height:100vh; line-height:1.5;
+  }
+  h1,h2,h3,h4{font-family:'Sora',system-ui,sans-serif;margin:0;}
+  p{margin:0 0 10px 0;}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px 70px;}
+
+  .hero{background:linear-gradient(135deg, var(--sun-600), var(--sun-400) 65%, #ffce8a);color:#fff;padding:38px 20px 84px;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;right:-60px;bottom:-90px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,0.10);}
+  .hero::before{content:"";position:absolute;left:60%;top:-70px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,0.08);}
+  .hero-inner{max-width:960px;margin:0 auto;position:relative;z-index:2;}
+  .kicker{font-size:14px;font-weight:600;letter-spacing:.02em;color:rgba(255,255,255,0.92);display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.16);padding:6px 14px;border-radius:var(--radius-pill);margin-bottom:16px;}
+  .hero h1{font-size:clamp(28px,4.2vw,40px);font-weight:800;max-width:660px;line-height:1.12;}
+  .hero p.lead{font-size:16.5px;max-width:580px;margin-top:12px;color:rgba(255,255,255,0.94);}
+
+  .navcard{max-width:960px;margin:-46px auto 30px;background:var(--paper);border-radius:20px;box-shadow:var(--shadow);padding:14px;position:relative;z-index:5;}
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;}
+  .tab-btn{border:none;background:var(--sun-50);color:var(--ink-700);font-family:'Inter',sans-serif;font-weight:600;font-size:14px;padding:11px 18px;border-radius:var(--radius-pill);cursor:pointer;transition:all .18s ease;display:flex;align-items:center;gap:7px;}
+  .tab-btn:hover{background:var(--sun-100);}
+  .tab-btn.active{background:linear-gradient(135deg,var(--sun-500),var(--sun-600));color:#fff;box-shadow:0 6px 16px -6px rgba(211,90,10,0.45);}
+  .tab-btn .num{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,0.35);display:inline-flex;align-items:center;justify-content:center;font-size:11.5px;}
+  .tab-btn:not(.active) .num{background:var(--sun-200);color:var(--sun-600);}
+
+  .toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--line);margin-top:12px;padding-top:12px;}
+  .save-status{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-500);}
+  .save-status .led{width:8px;height:8px;border-radius:50%;background:var(--good);flex:none;}
+  .toolbar .tools{display:flex;gap:8px;flex-wrap:wrap;}
+  .tool-btn{border:1.5px solid var(--sun-200);background:#fff;color:var(--sun-600);font-family:'Inter',sans-serif;font-weight:600;font-size:12.5px;padding:8px 14px;border-radius:var(--radius-pill);cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+  .tool-btn:hover{background:var(--sun-50);}
+  .tool-btn.danger{color:var(--bad);border-color:#f4c6cc;}
+  .name-field{display:flex;align-items:center;gap:8px;}
+  .name-field label{font-size:12.5px;color:var(--ink-500);font-weight:600;white-space:nowrap;}
+  .name-field input{border:1.5px solid var(--sun-200);border-radius:var(--radius-pill);padding:7px 14px;font-size:13px;font-family:'Inter',sans-serif;color:var(--ink-900);background:#fbfdff;width:170px;}
+  .name-field input:focus{outline:none;border-color:var(--sun-500);background:#fff;}
+  .writing-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;}
+  @media print{
+    .navcard, footer.foot{display:none !important;}
+    .hero{padding:16px 0;background:none;color:var(--ink-900);}
+    .hero::after, .hero::before{display:none;}
+    .hero .kicker{background:var(--sun-100);color:var(--sun-600);}
+    body{background:#fff;}
+    .card{box-shadow:none;border:1px solid var(--line);}
+    .tool-btn, .btn, .btn-row{display:none !important;}
+  }
+
+  section.panel{display:none;animation:fade .25s ease;}
+  section.panel.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-card);padding:26px 26px;margin-bottom:20px;box-shadow:var(--shadow);}
+  .card h2{font-size:22px;color:var(--ink-900);margin-bottom:6px;}
+  .card h3{font-size:16px;margin-top:22px;margin-bottom:6px;}
+  .card .sub{color:var(--ink-500);font-size:14.5px;margin-bottom:18px;}
+  .eyebrow{font-size:12.5px;font-weight:600;color:var(--sun-600);background:var(--sun-100);display:inline-block;padding:4px 12px;border-radius:var(--radius-pill);margin-bottom:10px;}
+
+  label.q{display:block;font-weight:600;font-size:14.5px;color:var(--ink-900);margin:14px 0 6px;}
+  input[type=text], textarea, select{width:100%;font-family:'Inter',sans-serif;font-size:14.5px;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--ink-900);background:#fbfdff;}
+  input[type=text]:focus, textarea:focus, select:focus{outline:none;border-color:var(--sun-500);background:#fff;}
+  textarea{resize:vertical;min-height:70px;}
+  .field-ok{border-color:var(--good) !important;background:var(--good-bg) !important;}
+  .field-bad{border-color:var(--bad) !important;background:var(--bad-bg) !important;}
+
+  .btn{border:none;cursor:pointer;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;padding:11px 20px;border-radius:var(--radius-pill);background:linear-gradient(135deg,var(--sun-500),var(--sun-600));color:#fff;box-shadow:0 8px 18px -8px rgba(211,90,10,0.5);display:inline-flex;align-items:center;gap:8px;}
+  .btn.ghost{background:#fff;color:var(--sun-600);border:1.5px solid var(--sun-200);box-shadow:none;}
+  .btn-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+  .feedback{margin-top:12px;font-size:14px;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+  .feedback.show{display:block;}
+  .feedback.ok{background:var(--good-bg);color:var(--good);}
+  .feedback.warn{background:#fff6e0;color:#9a6b00;}
+
+  .be-table{width:100%;border-collapse:separate;border-spacing:0;margin-top:10px;border-radius:12px;overflow:hidden;border:1px solid var(--line);}
+  .be-table th{background:var(--sun-500);color:#fff;font-family:'Sora',sans-serif;font-size:13.5px;padding:10px 12px;text-align:left;}
+  .be-table td{padding:10px 12px;font-size:14px;border-top:1px solid var(--line);background:#fff;}
+  .be-table tr:nth-child(even) td{background:var(--sun-50);}
+  .be-table td.gap{font-weight:800;color:var(--sun-600);text-align:center;}
+
+  .quote-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;}
+  .quote-card{flex:1 1 160px;background:var(--sun-50);border-radius:12px;padding:14px 16px;font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-900);font-weight:600;}
+  .quote-card span{display:block;font-family:'Inter',sans-serif;font-weight:400;font-size:12.5px;color:var(--sun-600);margin-bottom:4px;}
+
+  .greet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px;}
+  .greet-card{background:var(--sun-50);border:1px solid var(--line);border-radius:16px;padding:16px 18px;}
+  .greet-card .gc-head{display:flex;align-items:center;gap:9px;margin-bottom:10px;}
+  .greet-card .gc-ic{width:32px;height:32px;border-radius:10px;background:var(--sun-500);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none;}
+  .greet-card h4{font-size:14.5px;color:var(--ink-900);}
+  .greet-card ul{list-style:none;margin:0;padding:0;display:grid;gap:7px;}
+  .greet-card li{font-size:13.5px;color:var(--ink-700);background:#fff;border:1px solid var(--line);border-radius:9px;padding:7px 10px;}
+  .greet-card li b{color:var(--ink-900);}
+
+  .scene-block{background:var(--sun-50);border-radius:14px;padding:16px 18px;margin-bottom:14px;}
+  .scene-block p{font-size:14.5px;line-height:1.75;}
+
+  .ex-block{border-top:1px dashed var(--line);padding-top:16px;margin-top:16px;}
+  .ex-block:first-of-type{border-top:none;margin-top:0;padding-top:0;}
+  .ex-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:var(--ink-900);color:#fff;font-size:12.5px;font-weight:700;margin-right:8px;}
+  .item-row{display:flex;gap:10px;align-items:center;margin:8px 0;}
+  .item-row .txt{font-size:14.5px;color:var(--ink-900);flex:1;}
+  .item-row input[type=text]{max-width:240px;}
+  .item-row select{max-width:240px;}
+
+  .word-bank{background:var(--sun-50);border:1.5px dashed var(--sun-200);border-radius:14px;padding:14px 16px;margin:14px 0 20px;}
+  .word-bank .wb-label{display:block;font-family:'Sora',sans-serif;font-weight:700;font-size:13px;color:var(--sun-600);text-transform:uppercase;letter-spacing:.04em;margin-bottom:9px;}
+  .wb-chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .wb-chip{background:#fff;border:1.5px solid var(--sun-200);color:var(--ink-700);font-size:13px;font-weight:600;padding:6px 13px;border-radius:var(--radius-pill);}
+
+  .prompt-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .chip{background:#fff;border:1.5px solid var(--sun-200);color:var(--sun-600);font-size:13.5px;font-weight:600;padding:8px 14px;border-radius:var(--radius-pill);}
+  .things{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 16px;}
+  .thing{background:var(--sun-50);border:1px solid var(--line);border-radius:14px;padding:10px 14px;text-align:center;font-size:13px;color:var(--ink-700);min-width:96px;}
+  .thing .em{display:block;font-size:30px;line-height:1.2;}
+  .thing b{display:block;font-family:'Sora',sans-serif;font-size:12.5px;color:var(--ink-900);margin-top:2px;}
+
+  /* org chart */
+  .org{margin:8px 0 6px;}
+  .org-level{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .org-link{width:2px;height:16px;background:var(--sun-200);margin:6px auto;}
+  .org-box{background:var(--sun-50);border:1.5px solid var(--sun-200);border-radius:12px;padding:10px 12px;min-width:176px;text-align:center;flex:1 1 176px;max-width:210px;}
+  .org-box b{display:block;font-family:'Sora',sans-serif;font-size:13.5px;margin-bottom:6px;color:var(--ink-900);}
+  .org-box select{max-width:none;font-size:13px;padding:8px 8px;}
+  .org-box.static{background:#fff;border-style:dashed;}
+  .org-box.static span{font-size:13px;color:var(--ink-700);}
+
+  /* collapsible */
+  details.collapsible{background:var(--sun-50);border:1.5px solid var(--sun-200);border-radius:14px;padding:12px 16px;margin-bottom:12px;}
+  details.collapsible summary{cursor:pointer;list-style:none;font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:var(--ink-900);display:flex;align-items:center;gap:8px;}
+  details.collapsible summary::-webkit-details-marker{display:none;}
+  details.collapsible summary::after{content:"▾";margin-left:auto;color:var(--sun-500);font-size:14px;transition:transform .15s ease;}
+  details.collapsible[open] summary::after{transform:rotate(180deg);}
+  details.collapsible .collapsible-body{margin-top:12px;}
+
+  .steps{counter-reset:step;list-style:none;padding:0;margin:0;}
+  .steps li{counter-increment:step;position:relative;padding:14px 14px 14px 52px;background:var(--sun-50);border-radius:14px;margin-bottom:10px;}
+  .steps li::before{content:counter(step);position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:50%;background:var(--sun-500);color:#fff;font-family:'Sora',sans-serif;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;}
+  .steps li h4{font-size:15px;margin-bottom:3px;color:var(--ink-900);}
+  .steps li p{font-size:14px;color:var(--ink-700);margin:0;}
+
+  .starters{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin:12px 0 4px;}
+  .starter{background:var(--sun-50);border-radius:10px;padding:8px 12px;font-size:13.5px;color:var(--ink-700);font-family:'Sora',sans-serif;font-weight:600;}
+  .word-count{font-size:13px;color:var(--ink-500);margin-top:8px;}
+  .teacher-note{margin-top:22px;border:1.5px dashed var(--sun-200);border-radius:14px;padding:14px 16px;background:var(--sun-50);}
+  .teacher-note .eyebrow{margin-bottom:6px;}
+  .teacher-note p{font-size:13.5px;color:var(--ink-700);margin:0;}
+  .self-check{list-style:none;padding:0;margin:10px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;}
+  .self-check li{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-700);}
+  .self-check input{accent-color:var(--sun-500);}
+
+  /* vocabulary game */
+  .mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .mcard{position:relative;border:none;border-radius:12px;min-height:88px;background:linear-gradient(135deg,var(--sun-500),var(--sun-600));color:#fff;font-family:'Sora',sans-serif;font-size:22px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:6px;}
+  .mcard .mface{display:none;align-items:center;justify-content:center;text-align:center;width:100%;}
+  .mcard.flipped{background:#fff;color:var(--ink-900);border:2px solid var(--sun-200);}
+  .mcard.flipped .mface, .mcard.matched .mface{display:flex;}
+  .mcard.flipped .mback, .mcard.matched .mback{display:none;}
+  .mcard.matched{background:var(--good-bg);border:2px solid var(--good);color:var(--good);cursor:default;}
+  .mem-em{font-size:36px;line-height:1;}
+  .mem-w{font-size:14px;font-weight:700;}
+  .ginfo{display:flex;justify-content:space-between;font-family:'Sora',sans-serif;font-weight:700;font-size:13px;color:var(--ink-500);margin-bottom:8px;}
+  .learned{margin-top:14px;background:var(--sun-50);border:1.5px dashed var(--sun-200);border-radius:14px;padding:12px 14px;}
+  .learned b{font-family:'Sora',sans-serif;font-size:12.5px;color:var(--sun-600);text-transform:uppercase;letter-spacing:.04em;}
+  .learned ul{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px;}
+  .learned li{font-size:13.5px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:6px 10px;}
+  .speed-card{border:1.5px solid var(--sun-200);border-radius:16px;padding:18px 20px;background:#fff;margin-top:8px;}
+  .speed-head{display:flex;justify-content:space-between;font-family:'Sora',sans-serif;font-weight:700;font-size:13px;color:var(--ink-500);margin-bottom:8px;}
+  .timerbar{height:8px;background:var(--sun-100);border-radius:999px;overflow:hidden;margin-bottom:14px;}
+  .timerbar div{height:100%;width:100%;background:linear-gradient(90deg,var(--sun-400),var(--sun-600));}
+  .m-q2{font-family:'Sora',sans-serif;font-size:19px;font-weight:700;color:var(--ink-900);margin-bottom:12px;line-height:1.35;}
+  .opts{display:grid;gap:8px;}
+  .opt-btn{border:1.5px solid var(--sun-200);background:#fff;color:var(--ink-900);font-family:'Inter',sans-serif;font-weight:600;font-size:15px;padding:12px 14px;border-radius:12px;cursor:pointer;text-align:left;}
+  .opt-btn:hover:not(:disabled){background:var(--sun-50);}
+  .opt-btn.correct{background:var(--good-bg);border-color:var(--good);color:var(--good);}
+  .opt-btn.wrong{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);}
+  .badge-card{text-align:center;background:linear-gradient(135deg,var(--sun-50),var(--sun-100));border:1.5px solid var(--sun-200);border-radius:18px;padding:22px;margin-top:10px;}
+  .badge-card .badge-em{font-size:54px;line-height:1.1;}
+  .badge-card h3{margin:6px 0 4px;font-size:22px;}
+  @media(max-width:640px){ .mgrid{grid-template-columns:repeat(4,1fr);} .mcard{min-height:72px;} .mem-em{font-size:28px;} .mem-w{font-size:11.5px;} }
+  /* mission boarding pass */
+  .stampbar{display:inline-flex;gap:8px;}
+  .stamp{width:34px;height:34px;border-radius:50%;border:2px dashed rgba(255,255,255,0.45);display:inline-flex;align-items:center;justify-content:center;font-size:17px;opacity:.55;}
+  .stamp.on{border-style:solid;border-color:var(--sun-200);background:rgba(255,207,160,0.25);opacity:1;}
+  .puzzle{position:relative;border:1.5px solid var(--sun-200);border-radius:16px;padding:16px 18px;background:#fff;margin-bottom:14px;}
+  .puzzle.locked{opacity:.45;pointer-events:none;background:var(--sun-50);}
+  .puzzle.solved{background:var(--good-bg);border-color:var(--good);}
+  .pz-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;font-family:'Sora',sans-serif;}
+  .pz-num{width:28px;height:28px;border-radius:50%;background:var(--ink-900);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex:none;}
+  .pz-state{margin-left:auto;font-size:13px;font-weight:700;color:var(--ink-500);}
+  .pz-sub{font-size:14px;color:var(--ink-500);margin-bottom:10px;}
+  .forecast{background:var(--sun-50);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;}
+  .fc-title{font-family:'Sora',sans-serif;font-weight:700;font-size:14px;margin-bottom:8px;}
+  .packrow{display:flex;flex-wrap:wrap;gap:6px;}
+  .pchip{border:1.5px solid var(--sun-200);background:#fff;color:var(--ink-700);font-family:'Inter',sans-serif;font-weight:600;font-size:13px;padding:7px 12px;border-radius:999px;cursor:pointer;}
+  .pchip.sel{background:var(--sun-500);border-color:var(--sun-600);color:#fff;}
+  .trip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:12px;}
+  .trip{background:var(--sun-50);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;color:var(--ink-700);}
+  .trip b{display:block;font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-900);margin-bottom:4px;}
+  .bpass{border:2px dashed var(--ink-900);border-radius:18px;background:linear-gradient(135deg,var(--sun-50),var(--sun-100));padding:18px 20px;margin-top:10px;}
+  .bp-head{font-family:'Sora',sans-serif;font-weight:800;font-size:15px;letter-spacing:.06em;color:var(--sun-600);margin-bottom:12px;}
+  .bp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;}
+  .bp-grid small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-500);}
+  .bp-grid b{font-family:'Sora',sans-serif;font-size:16px;color:var(--ink-900);}
+  .bp-msg{margin:12px 0 0;font-size:14px;color:var(--ink-700);}
+  footer.foot{text-align:center;color:var(--ink-500);font-size:12.5px;margin-top:20px;}
+
+  @media(max-width:640px){
+    .hero{padding:30px 16px 96px;}
+    .card{padding:20px 18px;}
+    .item-row{flex-direction:column;align-items:stretch;}
+    .item-row input[type=text], .item-row select{max-width:none;}
+  }
+
+  /* warm-up bingo */
+  .scorebar{display:flex;align-items:center;justify-content:space-between;background:var(--ink-900);color:#fff;border-radius:12px;padding:10px 16px;margin-bottom:14px;font-family:'Sora',sans-serif;}
+  .scorebar b{font-size:22px;color:var(--sun-200);}
+  .roundtag{display:inline-block;font-family:'Sora',sans-serif;font-weight:700;font-size:13px;color:var(--sun-600);background:var(--sun-100);padding:6px 14px;border-radius:999px;margin-bottom:12px;}
+  .bingo{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:6px;}
+  .bsq{background:var(--sun-50);border:1.5px solid var(--sun-200);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:var(--ink-700);min-height:116px;transition:all .15s ease;}
+  .bsq b{font-family:'Sora',sans-serif;font-size:11.5px;color:var(--sun-600);text-transform:uppercase;letter-spacing:.03em;}
+  .bsq input[type=text]{padding:7px 9px;font-size:13px;}
+  .bsq.done{background:var(--good-bg);border-color:var(--good);}
+  .bsq.line{box-shadow:0 0 0 3px var(--sun-400);}
+  /* floor plans */
+  .plan-label{font-family:'Sora',sans-serif;font-weight:700;font-size:13px;color:var(--sun-600);margin:6px 0;}
+  .plan{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border:2px solid var(--ink-900);border-radius:14px;padding:10px;background:var(--sun-50);margin-bottom:6px;}
+  .plan .room{background:#fff;border:1.5px solid var(--sun-200);border-radius:10px;padding:10px 8px;text-align:center;min-height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+  .plan .room b{font-family:'Sora',sans-serif;font-size:13px;color:var(--ink-900);}
+  .plan .room small{font-size:11.5px;color:var(--ink-500);}
+  .plan .room.blank{border-style:dashed;background:var(--sun-100);}
+  .plan .room.blank b{color:var(--sun-600);font-size:20px;}
+  .plan .room select{font-size:12.5px;padding:8px 6px;max-width:none;}
+  .plan .corridor{grid-column:1 / -1;text-align:center;font-size:11.5px;letter-spacing:.35em;text-transform:uppercase;color:var(--ink-500);background:repeating-linear-gradient(90deg,var(--sun-100) 0 12px,transparent 12px 24px);border-radius:6px;padding:4px 0;}
+  @media(max-width:640px){ .bingo{grid-template-columns:repeat(2,1fr);} }
+
+
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="kicker">🎓 Unit 4 · English A1</span>
+    <h1>Let's Travel! Likes, Trips and Exchanges</h1>
+    <p class="lead">Talk about what you like, give your opinion about trips and transport, and find out how an academic exchange works.</p>
+  </div>
+</div>
+
+<div class="navcard">
+  <div class="tabs" id="tabNav">
+    <button class="tab-btn active" data-panel="p-warmup"><span class="num">1</span> Warm-up</button>
+    <button class="tab-btn" data-panel="p-grammar"><span class="num">2</span> Likes, can &amp; questions</button>
+    <button class="tab-btn" data-panel="p-reading"><span class="num">3</span> Reading</button>
+    <button class="tab-btn" data-panel="p-listening"><span class="num">4</span> Listening</button>
+    <button class="tab-btn" data-panel="p-speaking"><span class="num">5</span> Speaking</button>
+    <button class="tab-btn" data-panel="p-writing"><span class="num">6</span> Writing</button>
+  </div>
+  <div class="toolbar">
+    <div class="name-field">
+      <label for="studentName">Your name</label>
+      <input type="text" id="studentName" data-save placeholder="e.g. Ana Pérez" oninput="saveAnswers()">
+    </div>
+    <div class="save-status"><span class="led" id="saveLed"></span><span id="saveStatusText">Your answers are saved automatically in this browser.</span></div>
+    <div class="tools">
+      <button class="tool-btn" onclick="downloadAnswers()">⬇ Download my answers</button>
+      <button class="tool-btn" onclick="downloadGuide()">⬇ Download this guide</button>
+      <button class="tool-btn" onclick="printGuide()">🖨 Print / Save as PDF</button>
+      <button class="tool-btn danger" onclick="resetAnswers()">🗑 Reset my answers</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- 1. WARM-UP -->
+  <section class="panel active" id="p-warmup">
+    <div class="card">
+      <span class="eyebrow">Warm-up game · 15 min</span>
+      <h2>Mission: Boarding Pass</h2>
+      <p class="sub">Your exchange flight leaves soon, but the computer at the International Office is <strong>locked</strong>! Work in pairs and solve 4 puzzles to collect 4 stamps and print your boarding pass. Read the clues aloud together. Fewer mistakes = more stars!</p>
+      <div class="scorebar"><span>🛂 Passport stamps</span><span><span class="stampbar" id="stampbar"></span></span></div>
+      <div class="roundtag" id="pzTag">Mistakes: 0</div>
+      <div id="puzzles"></div>
+      <div id="boarding" style="display:none;"></div>
+      <div class="btn-row">
+        <button class="btn ghost" onclick="buildPuzzles()">↻ New mission</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="eyebrow">Talk about it</span>
+      <h2>Your habits and preferences</h2>
+      <div class="ex-block">
+        <p><span class="ex-num">1</span><strong>Describe and guess (pairs).</strong> Choose a word from the mission. Describe it <em>without saying the word</em>. Your partner guesses.</p>
+        <div class="prompt-chips">
+          <span class="chip">You use it to...</span>
+          <span class="chip">It's when...</span>
+          <span class="chip">You do it in...</span>
+          <span class="chip">Is it a...?</span>
+        </div>
+      </div>
+      <div class="ex-block">
+        <p><span class="ex-num">2</span><strong>Mini-interview (pairs).</strong> Ask your partner and write the answer.</p>
+        <div class="item-row"><div class="txt">How do you usually travel to the Faculty?</div><input type="text" id="sv1" data-save></div>
+        <div class="item-row"><div class="txt">What's your favourite season?</div><input type="text" id="sv2" data-save></div>
+        <div class="item-row"><div class="txt">What do you like doing in your free time?</div><input type="text" id="sv3" data-save></div>
+        <div class="item-row"><div class="txt">How often do you travel to another city?</div><input type="text" id="sv4" data-save></div>
+      </div>
+      <div class="btn-row"><button class="btn" onclick="goToTab('p-grammar')">Continue to Grammar →</button></div>
+    </div>
+  </section>
+
+  <!-- 2. GRAMMAR -->
+  <section class="panel" id="p-grammar">
+    <div class="card">
+      <span class="eyebrow">Grammar focus · 15 min</span>
+      <h2>Likes, preferences and opinions</h2>
+      <table class="be-table">
+        <tr><th>Expression</th><th>Example</th></tr>
+        <tr><td><strong>love</strong> ❤️</td><td>I love travelling by train.</td></tr>
+        <tr><td><strong>like</strong> 🙂</td><td>She likes hiking.</td></tr>
+        <tr><td><strong>enjoy</strong></td><td>We enjoy visiting new cities.</td></tr>
+        <tr><td><strong>don't / doesn't like</strong></td><td>He doesn't like the cold.</td></tr>
+        <tr><td><strong>hate</strong> 😤</td><td>I hate waiting for the bus.</td></tr>
+        <tr><td><strong>prefer</strong></td><td>I prefer the train to the bus.</td></tr>
+        <tr><td><strong>my favourite…</strong></td><td>My favourite season is spring.</td></tr>
+      </table>
+      <div class="greet-grid">
+        <div class="greet-card"><div class="gc-head"><div class="gc-ic">+ing</div><h4>Verb + -ing</h4></div><ul><li>love / like / enjoy / hate + <b>verb-ing</b></li><li>I like <b>travelling</b>. · She hates <b>getting up</b> early.</li></ul></div>
+        <div class="greet-card"><div class="gc-head"><div class="gc-ic">?</div><h4>Questions</h4></div><ul><li>Do you like travelling by bus? — Yes, I do. / No, I don't.</li><li>Which do you prefer, the bus or the train?</li></ul></div>
+        <div class="greet-card"><div class="gc-head"><div class="gc-ic">why</div><h4>Give a reason</h4></div><ul><li>I prefer the train <b>because</b> it's comfortable.</li><li>Why do you like it? — Because it's fun.</li></ul></div>
+        <div class="greet-card"><div class="gc-head"><div class="gc-ic">💬</div><h4>Opinions</h4></div><ul><li>It's great / boring / interesting.</li><li>It's cheap / expensive / fast / slow / comfortable.</li></ul></div>
+      </div>
+
+      <div class="ex-block" style="margin-top:18px;">
+        <p><span class="ex-num">1</span><strong>Complete</strong> with the -ing form of the verb.</p>
+        <div class="item-row"><div class="txt">I love ____ (travel) by train.</div><input type="text" id="gm1" data-save></div>
+        <div class="item-row"><div class="txt">He doesn't like ____ (wait) for the bus.</div><input type="text" id="gm2" data-save></div>
+        <div class="item-row"><div class="txt">We enjoy ____ (visit) new cities.</div><input type="text" id="gm3" data-save></div>
+        <div class="item-row"><div class="txt">She hates ____ (get up) early.</div><input type="text" id="gm4" data-save></div>
+        <div class="btn-row"><button class="btn" onclick="checkIngForms()">Check</button></div>
+        <div class="feedback ok" id="fbgm"></div>
+      </div>
+      <div class="ex-block">
+        <p><span class="ex-num">2</span><strong>Join</strong> the sentences with <em>because</em>.</p>
+        <div class="item-row"><div class="txt">I prefer the train. It's comfortable.</div><input type="text" id="bc1" data-save style="max-width:none;"></div>
+        <div class="item-row"><div class="txt">He doesn't like winter. It's very cold.</div><input type="text" id="bc2" data-save style="max-width:none;"></div>
+        <div class="btn-row"><button class="btn" onclick="checkBecause()">Check</button></div>
+        <div class="feedback ok" id="fbbc"></div>
+      </div>
+      <div class="ex-block">
+        <p><span class="ex-num">3</span><strong>Choose</strong> the correct form.</p>
+        <div class="item-row"><div class="txt">She ____ hiking.</div><select id="gx1" data-save class="customselect" data-options="like|likes|is like"></select></div>
+        <div class="item-row"><div class="txt">They ____ taking photos. (negative)</div><select id="gx2" data-save class="customselect" data-options="doesn't like|don't like|not like"></select></div>
+        <div class="item-row"><div class="txt">____ you like travelling by bus?</div><select id="gx3" data-save class="customselect" data-options="Do|Does|Are"></select></div>
+        <div class="item-row"><div class="txt">Which ____ you prefer, tea or mate?</div><select id="gx4" data-save class="customselect" data-options="do|does|are"></select></div>
+        <div class="btn-row"><button class="btn" onclick="checkLikes()">Check</button></div>
+        <div class="feedback ok" id="fbgx"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="eyebrow">Grammar focus · 10 min</span>
+      <h2>Can / can't</h2>
+      <p class="sub">We use <em>can</em> and <em>can't</em> for abilities and for possibilities.</p>
+      <table class="be-table">
+        <tr><th>Affirmative</th><th>Negative</th><th>Question</th></tr>
+        <tr><td>I / you / he / she / we / they <strong>can</strong> swim.</td><td>I / you / he / she / we / they <strong>can't</strong> swim.</td><td><strong>Can</strong> you swim? — Yes, I can. / No, I can't.</td></tr>
+      </table>
+      <div class="greet-grid">
+        <div class="greet-card"><div class="gc-head"><div class="gc-ic">💪</div><h4>Ability</h4></div><ul><li>She can speak three languages.</li></ul></div>
+        <div class="greet-card"><div class="gc-head"><div class="gc-ic">✅</div><h4>Possibility</h4></div><ul><li>Students can travel by bus with a discount.</li></ul></div>
+        <div class="greet-card"><div class="gc-head"><div class="gc-ic">🚫</div><h4>Not possible</h4></div><ul><li>You can't use your phone in the exam.</li><li>We can't go hiking today: it's stormy.</li></ul></div>
+        <div class="greet-card"><div class="gc-head"><div class="gc-ic">!</div><h4>Be careful</h4></div><ul><li>The verb never changes: he <b>can swim</b> (not "cans" or "can swims").</li></ul></div>
+      </div>
+
+      <div class="ex-block" style="margin-top:18px;">
+        <p><span class="ex-num">4</span><strong>Complete</strong> with can or can't.</p>
+        <div class="item-row"><div class="txt">She ____ speak three languages.</div><input type="text" id="cn1" data-save></div>
+        <div class="item-row"><div class="txt">Students ____ get a discount on the bus.</div><input type="text" id="cn2" data-save></div>
+        <div class="item-row"><div class="txt">We ____ go hiking today. It's stormy.</div><input type="text" id="cn3" data-save></div>
+        <div class="item-row"><div class="txt">____ you ride a bike?</div><input type="text" id="cn4" data-save></div>
+        <div class="btn-row"><button class="btn" onclick="checkCan()">Check</button></div>
+        <div class="feedback ok" id="fbcn"></div>
+      </div>
+      <div class="ex-block">
+        <p><span class="ex-num">5</span><strong>Write the question.</strong></p>
+        <div class="item-row"><div class="txt">(you / speak / French)</div><input type="text" id="cq1" data-save style="max-width:none;"></div>
+        <div class="item-row"><div class="txt">(students / apply / for an exchange)</div><input type="text" id="cq2" data-save style="max-width:none;"></div>
+        <div class="btn-row"><button class="btn" onclick="checkCanQ()">Check</button></div>
+        <div class="feedback ok" id="fbcq"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="eyebrow">Grammar focus · 10 min</span>
+      <h2>Asking for information</h2>
+      <table class="be-table">
+        <tr><th>Question</th><th>Example</th></tr>
+        <tr><td><strong>What…like?</strong> (weather)</td><td>What's the weather like in Bariloche?</td></tr>
+        <tr><td><strong>How…?</strong> (way)</td><td>How do you usually travel?</td></tr>
+        <tr><td><strong>Which…?</strong> (choice)</td><td>Which do you prefer, the train or the plane?</td></tr>
+        <tr><td><strong>Why…?</strong> (reason)</td><td>Why do you like hiking? — Because it's relaxing.</td></tr>
+        <tr><td><strong>How often…?</strong></td><td>How often do you travel to another city?</td></tr>
+      </table>
+      <div class="ex-block" style="margin-top:14px;">
+        <p><span class="ex-num">6</span><strong>Choose</strong> the correct question word.</p>
+        <div class="item-row"><div class="txt">____ do you usually travel? By bus.</div><select id="qw1" data-save class="customselect" data-options="How|What|Why"></select></div>
+        <div class="item-row"><div class="txt">____ is the weather like in Bariloche? It's cold and snowy.</div><select id="qw2" data-save class="customselect" data-options="What|How|Where"></select></div>
+        <div class="item-row"><div class="txt">____ do you prefer, the train or the plane?</div><select id="qw3" data-save class="customselect" data-options="Which|Who|When"></select></div>
+        <div class="item-row"><div class="txt">____ do you like hiking? Because it's relaxing.</div><select id="qw4" data-save class="customselect" data-options="Why|Where|How"></select></div>
+        <div class="item-row"><div class="txt">____ do you travel to another city? Twice a month.</div><select id="qw5" data-save class="customselect" data-options="How often|What time|Where"></select></div>
+        <div class="btn-row"><button class="btn" onclick="checkQwords()">Check</button></div>
+        <div class="feedback ok" id="fbqw"></div>
+      </div>
+      <div class="ex-block">
+        <p><span class="ex-num">7</span><strong>About you.</strong> Answer with a full sentence.</p>
+        <label class="q">What do you like doing in your free time?</label>
+        <input type="text" id="pp1" data-save>
+        <label class="q">How do you prefer to travel, and why?</label>
+        <input type="text" id="pp2" data-save>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. READING -->
+  <section class="panel" id="p-reading">
+    <div class="card">
+      <span class="eyebrow">Reading · 15 min</span>
+      <h2>Study in Chile</h2>
+      <p class="sub">An exchange programme leaflet and two students' opinions.</p>
+      <div class="scene-block">
+        <p><strong>EXCHANGE PROGRAMME — University of Valparaíso, Chile</strong></p>
+        <p>Students from our university can apply twice a year, in March and in August. The programme lasts one semester. Students can choose between two cities: Valparaíso and Santiago.</p>
+        <p>The International Office helps students with the papers and the student card. With the student card, students can use the library, the computer lab and the sports centre, and they can get a discount on buses and trains. There is free Wi-Fi in all the buildings.</p>
+        <p style="margin-bottom:0;"><strong>Weather:</strong> In summer, it's sunny and hot. In winter, it's cold, windy and often rainy. Bring a warm jacket!</p>
+      </div>
+      <div class="scene-block">
+        <p><strong>Ana, 22, Geography student:</strong> Hi! I'm Ana. I'm an exchange student in Valparaíso. I love hiking, so every weekend I go to the hills near the city. I usually travel by bus because it's cheap and I can see the landscape. I don't like planes: they're expensive and I hate waiting at the airport. The weather here is great in summer, but in winter it's windy.</p>
+        <p style="margin-bottom:0;"><strong>Marco, 24, Systems Engineering student:</strong> My name is Marco and I study in Santiago. I like museums and concerts, and I can speak Spanish, English and a little Italian. I prefer the train to the bus because it's faster. My favourite place is the university library: it's quiet and the Wi-Fi is very good. I don't like the cold, so I can't go to the mountains in winter!</p>
+      </div>
+
+      <div class="ex-block">
+        <p><span class="ex-num">1</span><strong>True or false?</strong></p>
+        <div class="item-row"><div class="txt">Students can apply three times a year.</div><select id="rt1" data-save class="tfselect"></select></div>
+        <div class="item-row"><div class="txt">The programme lasts one semester.</div><select id="rt2" data-save class="tfselect"></select></div>
+        <div class="item-row"><div class="txt">With the student card, students can get a discount on buses and trains.</div><select id="rt3" data-save class="tfselect"></select></div>
+        <div class="item-row"><div class="txt">In winter it's sunny and hot.</div><select id="rt4" data-save class="tfselect"></select></div>
+        <div class="item-row"><div class="txt">Ana prefers travelling by plane.</div><select id="rt5" data-save class="tfselect"></select></div>
+        <div class="item-row"><div class="txt">Marco can speak Spanish and English.</div><select id="rt6" data-save class="tfselect"></select></div>
+        <div class="btn-row"><button class="btn" onclick="checkReadTF()">Check</button></div>
+        <div class="feedback ok" id="fbrt"></div>
+      </div>
+
+      <div class="ex-block">
+        <p><span class="ex-num">2</span><strong>Who is it?</strong> Ana, Marco or both?</p>
+        <div class="item-row"><div class="txt">hates waiting at the airport</div><select id="rw1" data-save class="whoselect"></select></div>
+        <div class="item-row"><div class="txt">prefers the train</div><select id="rw2" data-save class="whoselect"></select></div>
+        <div class="item-row"><div class="txt">studies in Chile</div><select id="rw3" data-save class="whoselect"></select></div>
+        <div class="item-row"><div class="txt">loves hiking</div><select id="rw4" data-save class="whoselect"></select></div>
+        <div class="item-row"><div class="txt">can't go to the mountains in winter</div><select id="rw5" data-save class="whoselect"></select></div>
+        <div class="item-row"><div class="txt">is an exchange student</div><select id="rw6" data-save class="whoselect"></select></div>
+        <div class="btn-row"><button class="btn" onclick="checkWho()">Check</button></div>
+        <div class="feedback ok" id="fbrw"></div>
+      </div>
+
+      <div class="ex-block">
+        <p><span class="ex-num">3</span><strong>Which service?</strong></p>
+        <div class="item-row"><div class="txt">It helps students with the papers and the student card.</div><select id="rs1" data-save class="svcselect"></select></div>
+        <div class="item-row"><div class="txt">You can borrow books here.</div><select id="rs2" data-save class="svcselect"></select></div>
+        <div class="item-row"><div class="txt">You can use computers here.</div><select id="rs3" data-save class="svcselect"></select></div>
+        <div class="item-row"><div class="txt">You can do sports here.</div><select id="rs4" data-save class="svcselect"></select></div>
+        <div class="btn-row"><button class="btn" onclick="checkServices()">Check</button></div>
+        <div class="feedback ok" id="fbrs"></div>
+      </div>
+
+      <div class="ex-block">
+        <p><span class="ex-num">4</span><strong>Answer.</strong></p>
+        <div class="item-row"><div class="txt">When can students apply?</div><input type="text" id="rq1" data-save></div>
+        <div class="item-row"><div class="txt">Why does Ana prefer the bus?</div><input type="text" id="rq2" data-save></div>
+        <div class="item-row"><div class="txt">What's the weather like in winter?</div><input type="text" id="rq3" data-save></div>
+        <div class="btn-row"><button class="btn" onclick="checkReadQ()">Check</button></div>
+        <div class="feedback ok" id="fbrq"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. LISTENING -->
+  <section class="panel" id="p-listening">
+    <div class="card">
+      <span class="eyebrow">🎧 Listening · 15 min</span>
+      <h2>Questions at the International Office</h2>
+      <p class="sub">Valeria calls the International Office to ask about the exchange programme. Listen and complete the tasks. You can listen as many times as you need.</p>
+
+      <div class="ex-block">
+        <p><span class="ex-num">1</span><strong>First listening.</strong> Complete Valeria's information card.</p>
+        <div class="info-grid">
+          <div><label>Valeria studies…</label><input type="text" id="li1" data-save></div>
+          <div><label>City she prefers</label><select id="li2" data-save class="customselect" data-options="Lisbon|Porto"></select></div>
+          <div><label>Weather in Porto</label><input type="text" id="li3" data-save></div>
+          <div><label>The programme lasts…</label><select id="li4" data-save class="customselect" data-options="one semester|one year|two semesters"></select></div>
+          <div><label>Student card discount (%)</label><input type="text" id="li5" data-save></div>
+          <div><label>Office days</label><input type="text" id="li6" data-save></div>
+        </div>
+        <div class="btn-row"><button class="btn" onclick="checkListenForm()">Check</button></div>
+        <div class="feedback ok" id="fbl1"></div>
+      </div>
+
+      <div class="ex-block">
+        <p><span class="ex-num">2</span><strong>Second listening.</strong> Choose the correct option. Be careful: some details change!</p>
+        <div class="item-row"><div class="txt">Students can apply in…</div><select id="lm1" data-save class="customselect" data-options="March and August|March and September|April and September"></select></div>
+        <div class="item-row"><div class="txt">Valeria prefers Lisbon because…</div><select id="lm2" data-save class="customselect" data-options="it's cheaper|she hates the rain|it's near her home"></select></div>
+        <div class="item-row"><div class="txt">Many students travel on weekends by…</div><select id="lm3" data-save class="customselect" data-options="plane|bus|train"></select></div>
+        <div class="item-row"><div class="txt">With the student card, students can…</div><select id="lm4" data-save class="customselect" data-options="get a discount on buses and the metro|travel free by train|use the library only"></select></div>
+        <div class="item-row"><div class="txt">Students can take classes in…</div><select id="lm5" data-save class="customselect" data-options="Portuguese only|English|Spanish"></select></div>
+        <div class="btn-row"><button class="btn" onclick="checkListenMC()">Check</button></div>
+        <div class="feedback ok" id="fbl2"></div>
+      </div>
+
+      <div class="ex-block">
+        <p><span class="ex-num">3</span><strong>Third listening.</strong> Yes or no? Think about <em>can</em> and <em>can't</em>.</p>
+        <div class="item-row"><div class="txt">Can Valeria stay for a whole year?</div><select id="ly1" data-save class="customselect" data-options="Yes|No"></select></div>
+        <div class="item-row"><div class="txt">Can students take classes in English?</div><select id="ly2" data-save class="customselect" data-options="Yes|No"></select></div>
+        <div class="item-row"><div class="txt">Can students use the sports centre?</div><select id="ly3" data-save class="customselect" data-options="Yes|No"></select></div>
+        <div class="item-row"><div class="txt">Can students apply in August?</div><select id="ly4" data-save class="customselect" data-options="Yes|No"></select></div>
+        <div class="item-row"><div class="txt">Can Valeria visit the office on Mondays?</div><select id="ly5" data-save class="customselect" data-options="Yes|No"></select></div>
+        <div class="btn-row"><button class="btn" onclick="checkListenYN()">Check</button></div>
+        <div class="feedback ok" id="fbl3"></div>
+      </div>
+
+      <div class="ex-block">
+        <p><span class="ex-num">4</span><strong>Language focus.</strong> Listen again and complete.</p>
+        <div class="scene-block" style="margin-bottom:8px;">
+          <p style="margin-bottom:8px;">"I <input type="text" id="lg1" data-save style="display:inline-block;width:110px;padding:6px 10px;"> the rain, so I <input type="text" id="lg2" data-save style="display:inline-block;width:110px;padding:6px 10px;"> Lisbon."</p>
+          <p style="margin-bottom:8px;">"Many students go by train <input type="text" id="lg3" data-save style="display:inline-block;width:130px;padding:6px 10px;"> it's cheap."</p>
+          <p style="margin-bottom:0;">"Students <input type="text" id="lg4" data-save style="display:inline-block;width:100px;padding:6px 10px;"> apply twice a year."</p>
+        </div>
+        <div class="btn-row"><button class="btn" onclick="checkListenGaps()">Check</button></div>
+        <div class="feedback ok" id="fbl4"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. SPEAKING -->
+  <section class="panel" id="p-speaking">
+    <div class="card">
+      <span class="eyebrow">Speaking · 20 min</span>
+      <h2>Part 1: Information gap — Exchange students</h2>
+      <p class="sub">You and your partner each know part of the information about four exchange students. Ask questions to complete your card. <strong>Don't show your card!</strong></p>
+
+      <details class="collapsible">
+        <summary>Student A — open your card</summary>
+        <div class="collapsible-body">
+          <table class="be-table">
+            <tr><th>Student</th><th>From</th><th>Weather at home</th><th>Likes</th><th>Prefers to travel by</th></tr>
+            <tr><td>Lucas</td><td>Germany</td><td class="gap">?</td><td>hiking and photography</td><td class="gap">?</td></tr>
+            <tr><td>Yuki</td><td class="gap">?</td><td>rainy in summer</td><td class="gap">?</td><td>bike</td></tr>
+            <tr><td>Camila</td><td>Brazil</td><td class="gap">?</td><td>dancing and football</td><td class="gap">?</td></tr>
+            <tr><td>Omar</td><td class="gap">?</td><td>hot and windy</td><td class="gap">?</td><td>plane</td></tr>
+          </table>
+        </div>
+      </details>
+      <details class="collapsible">
+        <summary>Student B — open your card</summary>
+        <div class="collapsible-body">
+          <table class="be-table">
+            <tr><th>Student</th><th>From</th><th>Weather at home</th><th>Likes</th><th>Prefers to travel by</th></tr>
+            <tr><td>Lucas</td><td class="gap">?</td><td>cold and cloudy</td><td class="gap">?</td><td>train</td></tr>
+            <tr><td>Yuki</td><td>Japan</td><td class="gap">?</td><td>cooking and concerts</td><td class="gap">?</td></tr>
+            <tr><td>Camila</td><td class="gap">?</td><td>hot and sunny</td><td class="gap">?</td><td>bus</td></tr>
+            <tr><td>Omar</td><td>Egypt</td><td class="gap">?</td><td>video games and travelling</td><td class="gap">?</td></tr>
+          </table>
+        </div>
+      </details>
+      <div class="prompt-chips">
+        <span class="chip">Where is Yuki from?</span>
+        <span class="chip">What's the weather like in Germany?</span>
+        <span class="chip">What does Camila like doing?</span>
+        <span class="chip">How does Omar prefer to travel?</span>
+        <span class="chip">Which does she prefer, the bus or the train?</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="eyebrow">Speaking · negotiation</span>
+      <h2>Part 2: Where do we go on our class trip?</h2>
+      <p class="sub">Read the three destinations. Then open your <strong>private</strong> preference card and talk with your partner. You must agree on <strong>one</strong> destination and give reasons.</p>
+      <div class="greet-grid">
+        <div class="greet-card"><div class="gc-head"><div class="gc-ic">🏔️</div><h4>Bariloche</h4></div><ul><li>cold and snowy in winter</li><li>skiing and hiking</li><li>20 hours by bus or 2 hours by plane</li><li>expensive</li></ul></div>
+        <div class="greet-card"><div class="gc-head"><div class="gc-ic">🏖️</div><h4>Mar del Plata</h4></div><ul><li>sunny and windy</li><li>the beach and concerts</li><li>10 hours by bus or train</li><li>cheap</li></ul></div>
+        <div class="greet-card"><div class="gc-head"><div class="gc-ic">⛰️</div><h4>Córdoba</h4></div><ul><li>warm and sunny</li><li>museums, music and hiking in the hills</li><li>9 hours by bus</li><li>not expensive</li></ul></div>
+      </div>
+
+      <details class="collapsible" style="margin-top:14px;">
+        <summary>Student A — your preference card</summary>
+        <div class="collapsible-body"><p style="margin:0;">You love hiking and you like museums. You hate cold weather. You can't pay for a plane. You prefer the train.</p></div>
+      </details>
+      <details class="collapsible">
+        <summary>Student B — your preference card</summary>
+        <div class="collapsible-body"><p style="margin:0;">You love concerts and you like hot weather. You can travel by bus, but you don't like long trips. You enjoy taking photos.</p></div>
+      </details>
+      <div class="prompt-chips">
+        <span class="chip">I prefer… because…</span>
+        <span class="chip">I don't like…, but I can…</span>
+        <span class="chip">What about…?</span>
+        <span class="chip">Which do you prefer, … or …?</span>
+        <span class="chip">I can't…, so…</span>
+        <span class="chip">OK, let's go to…</span>
+      </div>
+      <div class="ex-block">
+        <p><span class="ex-num">1</span><strong>Your decision.</strong> Write the destination you chose and one reason.</p>
+        <input type="text" id="sd1" data-save style="max-width:none;">
+      </div>
+      <div class="ex-block">
+        <p><span class="ex-num">2</span><strong>Exit ticket.</strong> Tell your partner about a dream trip: where, what the weather is like, how you travel and what you can do there.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. WRITING -->
+  <section class="panel" id="p-writing">
+    <div class="card">
+      <span class="eyebrow">Writing · 15 min</span>
+      <h2>A review for the Exchange Blog</h2>
+      <p class="sub">Write a short review (7–8 sentences) of a place you know, or a place you would recommend, for future exchange students. Say where it is, what the weather is like, how you can travel there, what you like doing there and give your opinion.</p>
+      <div class="starters">
+        <div class="starter">I recommend…</div>
+        <div class="starter">It's … in winter / summer.</div>
+        <div class="starter">You can go by…</div>
+        <div class="starter">You can / can't…</div>
+        <div class="starter">I love / like / enjoy …-ing</div>
+        <div class="starter">I don't like… because…</div>
+        <div class="starter">In my opinion, it's…</div>
+      </div>
+      <details class="collapsible" style="margin-top:14px;">
+        <summary>See a model review</summary>
+        <div class="collapsible-body">
+          <p style="font-size:14px;line-height:1.7;">I recommend Bariloche for your exchange holidays. In winter it's cold and snowy, so you can go skiing. I love hiking there because the views are beautiful. You can travel by bus, but it's slow, so I prefer the plane. I don't like the cold wind, but I enjoy drinking hot chocolate in the cafés. In my opinion, it's expensive but fantastic!</p>
+        </div>
+      </details>
+      <label class="q">Your review</label>
+      <textarea id="writingBox" data-save rows="9" placeholder="I recommend..." oninput="updateWordCount()"></textarea>
+      <div class="word-count" id="wordCount">0 words</div>
+      <p class="q" style="margin-top:20px;">Before you finish, check:</p>
+      <ul class="self-check">
+        <li><input type="checkbox" id="sc1" data-save> I said where the place is</li>
+        <li><input type="checkbox" id="sc2" data-save> I described the weather</li>
+        <li><input type="checkbox" id="sc3" data-save> I said how you can travel there</li>
+        <li><input type="checkbox" id="sc4" data-save> I used love / like / enjoy + -ing</li>
+        <li><input type="checkbox" id="sc5" data-save> I used can or can't</li>
+        <li><input type="checkbox" id="sc6" data-save> I gave a reason with because</li>
+        <li><input type="checkbox" id="sc7" data-save> I gave my opinion</li>
+      </ul>
+      <div class="writing-actions">
+        <button class="btn" onclick="downloadWriting()">⬇ Download this text</button>
+        <button class="btn ghost" onclick="printGuide()">🖨 Print / Save as PDF</button>
+      </div>
+      <div class="teacher-note">
+        <span class="eyebrow">Teacher note</span>
+        <p>The review recycles likes and preferences, can/can't, because, weather and transport. Since students have not studied the past tense yet, travel experiences are shared as opinions, recommendations and habits in the present.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">English A1 · Let's Travel! · Departamento de Lenguas Extranjeras, UNLPam</footer>
+</div>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ goToTab(btn.dataset.panel); });
+  });
+  function goToTab(panelId){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.querySelector('.tab-btn[data-panel="'+panelId+'"]').classList.add('active');
+    document.getElementById(panelId).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function normA(v){
+    return (v||"").toLowerCase().replace(/[\u2019\u2018`\u00b4]/g,"'")
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+      .replace(/[.!?]+$/,"").replace(/\s+/g," ").trim();
+  }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function checkText(answers, display, fbId, joiner){
+    let correct=0, total=0;
+    for(const id in answers){
+      total++;
+      const el = document.getElementById(id);
+      const val = normA(el.value);
+      const ok = answers[id].includes(val);
+      el.classList.remove('field-ok','field-bad');
+      if(val){ el.classList.add(ok?'field-ok':'field-bad'); if(ok) correct++; }
+    }
+    const fb = document.getElementById(fbId);
+    fb.className = 'feedback ' + (correct===total?'ok':'warn') + ' show';
+    const key = Object.keys(display).map(id=>display[id]).join(joiner || ' · ');
+    fb.innerHTML = correct+' / '+total+' correct.<br><strong>Correct answers:</strong> '+key;
+  }
+  function checkKeywords(answers, display, fbId, joiner){
+    let correct=0, total=0;
+    for(const id in answers){
+      total++;
+      const el = document.getElementById(id);
+      const val = normA(el.value);
+      const ok = answers[id].some(k=>val.includes(k));
+      el.classList.remove('field-ok','field-bad');
+      if(val){ el.classList.add(ok?'field-ok':'field-bad'); if(ok) correct++; }
+    }
+    const fb = document.getElementById(fbId);
+    fb.className = 'feedback ' + (correct===total?'ok':'warn') + ' show';
+    const key = Object.keys(display).map(id=>display[id]).join(joiner || ' · ');
+    fb.innerHTML = correct+' / '+total+' correct.<br><strong>Correct answers:</strong> '+key;
+  }
+  function checkSelects(answers, display, fbId, joiner){
+    let correct=0, total=0;
+    for(const id in answers){
+      total++;
+      const el = document.getElementById(id);
+      const ok = el.value === answers[id];
+      el.style.borderColor = el.value ? (ok?'var(--good)':'var(--bad)') : '';
+      if(ok) correct++;
+    }
+    const fb = document.getElementById(fbId);
+    fb.className = 'feedback ' + (correct===total?'ok':'warn') + ' show';
+    const key = Object.keys(display).map(id=>display[id]).join(joiner || ' · ');
+    fb.innerHTML = correct+' / '+total+' correct.<br><strong>Correct answers:</strong> '+key;
+  }
+  function fillSelects(cls, options){
+    document.querySelectorAll('select.'+cls).forEach(sel=>{
+      sel.innerHTML = ['<option value="">Choose...</option>']
+        .concat(options.map(o=>'<option value="'+o+'">'+o+'</option>')).join('');
+    });
+  }
+  function fillCustom(){
+    document.querySelectorAll('select.customselect').forEach(sel=>{
+      const opts = sel.dataset.options.split('|');
+      sel.innerHTML = '<option value="">Choose...</option>' + opts.map(o=>'<option value="'+o+'">'+o+'</option>').join('');
+    });
+  }
+
+  // ---------- 1. WARM-UP: MISSION BOARDING PASS ----------
+  const PACK_ITEMS = [
+    {k:"sunglasses", e:"🕶️"}, {k:"sunscreen", e:"🧴"}, {k:"shorts", e:"🩳"}, {k:"T-shirt", e:"👕"},
+    {k:"warm jacket", e:"🧥"}, {k:"scarf", e:"🧣"}, {k:"gloves", e:"🧤"}, {k:"umbrella", e:"☂️"}
+  ];
+  const FORECASTS = [
+    {id:"a", title:"☀️🥵 Mendoza: sunny and hot", correct:["sunglasses","sunscreen","shorts","T-shirt"]},
+    {id:"b", title:"❄️💨 Ushuaia: cold, windy and snowy", correct:["warm jacket","scarf","gloves"]},
+    {id:"c", title:"🌧️☁️ Valdivia: rainy and cloudy", correct:["umbrella","warm jacket"]}
+  ];
+  const TICKETS = [
+    {q:"It goes on rails between cities.", a:"train"},
+    {q:"It is the fastest way to travel far.", a:"plane"},
+    {q:"You ride it with your legs.", a:"bike"},
+    {q:"You pay a driver for a short trip.", a:"taxi"},
+    {q:"It carries many people on the road.", a:"bus"},
+    {q:"It travels on water.", a:"boat"}
+  ];
+  const TRANSPORT = ["bike","boat","bus","car","on foot","plane","taxi","train"];
+  const ACTIVITY_CLUES = [
+    {e:"🥾", q:"You walk in the mountains for fun.", ok:["go hiking","hiking"], show:"go hiking"},
+    {e:"🎸", q:"You play music with strings.", ok:["play the guitar","play guitar"], show:"play the guitar"},
+    {e:"📷", q:"You use your phone to make pictures.", ok:["take photos","take pictures","take photographs"], show:"take photos"},
+    {e:"🎬", q:"You see a movie.", ok:["watch films","watch movies","watch a film","watch a movie"], show:"watch films"},
+    {e:"🎤", q:"You listen to live music.", ok:["go to concerts","go to a concert","go to concert"], show:"go to concerts"}
+  ];
+  const ACTIVITY_BANK = ["go hiking","go to concerts","play football","play the guitar","read novels","take photos","watch films"];
+  const TRIPS = ["Mendoza","Salta","Ushuaia"];
+  const TRAVELLERS = [
+    {name:"Lena", text:"I love taking photos and I enjoy hiking. I don't mind the cold and I can pay for a plane.", a:"Ushuaia"},
+    {name:"Tomás", text:"I like museums and I love concerts. I prefer warm weather. I can only travel by bus.", a:"Salta"},
+    {name:"Valeria", text:"I love cycling and I enjoy trying new food. I hate the cold.", a:"Mendoza"}
+  ];
+  const STAMPS = ["🧳","🎫","🌍","✅"];
+  let pzSolved = [false,false,false,false], pzMistakes = 0;
+
+  function selectHtml(id, options){
+    return '<select id="'+id+'"><option value="">Choose...</option>' + options.map(o=>'<option value="'+esc(o)+'">'+esc(o)+'</option>').join('') + '</select>';
+  }
+  function buildPuzzles(){
+    pzSolved = [false,false,false,false]; pzMistakes = 0;
+    let h = '';
+    // Puzzle 1
+    h += '<div class="puzzle" id="pz1"><div class="pz-head"><span class="pz-num">1</span><b>Pack your suitcase</b><span class="pz-state" id="pzs1">Open</span></div>';
+    h += '<div class="pz-sub">Read each weather forecast and tap the things you need to pack.</div>';
+    FORECASTS.forEach(f=>{
+      h += '<div class="forecast"><div class="fc-title">' + esc(f.title) + '</div><div class="packrow" id="pack-' + f.id + '">';
+      PACK_ITEMS.forEach(it=>{ h += '<button class="pchip" data-item="' + esc(it.k) + '" onclick="togglePack(this)">' + it.e + ' ' + esc(it.k) + '</button>'; });
+      h += '</div></div>';
+    });
+    h += '<div class="btn-row"><button class="btn" onclick="checkPuzzle(1)">Check my suitcases</button></div><div class="feedback" id="pzf1"></div></div>';
+    // Puzzle 2
+    h += '<div class="puzzle locked" id="pz2"><div class="pz-head"><span class="pz-num">2</span><b>The ticket machine</b><span class="pz-state" id="pzs2">🔒 Locked</span></div>';
+    h += '<div class="pz-sub">Choose the transport that matches each clue.</div>';
+    TICKETS.forEach((t,i)=>{ h += '<div class="item-row"><div class="txt">' + esc(t.q) + '</div>' + selectHtml('tk'+i, TRANSPORT) + '</div>'; });
+    h += '<div class="btn-row"><button class="btn" onclick="checkPuzzle(2)">Print my tickets</button></div><div class="feedback" id="pzf2"></div></div>';
+    // Puzzle 3
+    h += '<div class="puzzle locked" id="pz3"><div class="pz-head"><span class="pz-num">3</span><b>The passport form</b><span class="pz-state" id="pzs3">🔒 Locked</span></div>';
+    h += '<div class="pz-sub">The form asks for your free-time activities. Write the activity for each picture. Use the word bank!</div>';
+    h += '<div class="word-bank"><span class="wb-label">Word bank</span><div class="wb-chips">' + ACTIVITY_BANK.map(w=>'<span class="wb-chip">'+esc(w)+'</span>').join('') + '</div></div>';
+    ACTIVITY_CLUES.forEach((c,i)=>{ h += '<div class="item-row"><div class="txt">' + c.e + ' ' + esc(c.q) + '</div><input type="text" id="ac'+i+'"></div>'; });
+    h += '<div class="btn-row"><button class="btn" onclick="checkPuzzle(3)">Stamp my passport</button></div><div class="feedback" id="pzf3"></div></div>';
+    // Puzzle 4
+    h += '<div class="puzzle locked" id="pz4"><div class="pz-head"><span class="pz-num">4</span><b>The check-in desk</b><span class="pz-state" id="pzs4">🔒 Locked</span></div>';
+    h += '<div class="pz-sub">Three travellers need the best trip for them. Read about the trips and the travellers, and match them.</div>';
+    h += '<div class="trip-grid">' +
+      '<div class="trip"><b>Mendoza</b>hot and sunny · cycling and good food · by bus · not expensive</div>' +
+      '<div class="trip"><b>Salta</b>warm and sunny · museums and concerts · by bus · cheap</div>' +
+      '<div class="trip"><b>Ushuaia</b>cold and windy · hiking and photography · by plane · expensive</div></div>';
+    TRAVELLERS.forEach((t,i)=>{ h += '<div class="item-row"><div class="txt"><strong>' + esc(t.name) + ':</strong> “' + esc(t.text) + '”</div>' + selectHtml('tv'+i, TRIPS) + '</div>'; });
+    h += '<div class="btn-row"><button class="btn" onclick="checkPuzzle(4)">Check in</button></div><div class="feedback" id="pzf4"></div></div>';
+
+    document.getElementById('puzzles').innerHTML = h;
+    document.getElementById('boarding').style.display = 'none';
+    document.getElementById('boarding').innerHTML = '';
+    renderStamps();
+  }
+  function renderStamps(){
+    document.getElementById('stampbar').innerHTML = STAMPS.map((s,i)=>'<span class="stamp'+(pzSolved[i]?' on':'')+'">'+(pzSolved[i]?s:'')+'</span>').join('');
+    document.getElementById('pzTag').textContent = 'Mistakes: ' + pzMistakes + ' · Stamps: ' + pzSolved.filter(Boolean).length + ' / 4';
+  }
+  function togglePack(btn){ btn.classList.toggle('sel'); }
+  function fbShow(id, ok, msg){
+    const fb = document.getElementById(id);
+    fb.className = 'feedback ' + (ok ? 'ok' : 'warn') + ' show';
+    fb.innerHTML = msg;
+  }
+  function solvePuzzle(n, msg){
+    pzSolved[n-1] = true;
+    const el = document.getElementById('pz'+n);
+    el.classList.add('solved');
+    document.getElementById('pzs'+n).textContent = '✅ Stamp collected';
+    el.querySelectorAll('input,select,button').forEach(b=>{ b.disabled = true; });
+    fbShow('pzf'+n, true, msg);
+    if(n < 4){
+      const next = document.getElementById('pz'+(n+1));
+      next.classList.remove('locked');
+      document.getElementById('pzs'+(n+1)).textContent = 'Open';
+    }
+    renderStamps();
+    if(pzSolved.every(Boolean)) showBoarding();
+  }
+  function failPuzzle(n, msg){
+    pzMistakes++;
+    renderStamps();
+    fbShow('pzf'+n, false, msg);
+  }
+  function checkPuzzle(n){
+    if(n === 1){
+      const wrong = [];
+      FORECASTS.forEach(f=>{
+        const sel = Array.from(document.querySelectorAll('#pack-'+f.id+' .pchip.sel')).map(b=>b.dataset.item).sort();
+        const cor = f.correct.slice().sort();
+        if(sel.join('|') !== cor.join('|')) wrong.push(f.title.split(':')[0].replace(/[^A-Za-z ]/g,'').trim());
+      });
+      if(wrong.length === 0) solvePuzzle(1, 'Stamp collected! 🧳 Sunny and hot: sunglasses, sunscreen, shorts, T-shirt · cold, windy and snowy: warm jacket, scarf, gloves · rainy and cloudy: umbrella, warm jacket.');
+      else failPuzzle(1, 'Not yet. Check the suitcase for: ' + wrong.join(', ') + '.');
+    } else if(n === 2){
+      let bad = 0;
+      TICKETS.forEach((t,i)=>{
+        const el = document.getElementById('tk'+i);
+        const ok = el.value === t.a;
+        el.style.borderColor = el.value ? (ok ? 'var(--good)' : 'var(--bad)') : '';
+        if(!ok) bad++;
+      });
+      if(bad === 0) solvePuzzle(2, 'Stamp collected! 🎫 train · plane · bike · taxi · bus · boat');
+      else failPuzzle(2, bad + ' ticket(s) are not correct yet. Try again!');
+    } else if(n === 3){
+      let bad = 0;
+      ACTIVITY_CLUES.forEach((c,i)=>{
+        const el = document.getElementById('ac'+i);
+        const val = normA(el.value);
+        const ok = c.ok.includes(val);
+        el.classList.remove('field-ok','field-bad');
+        if(val) el.classList.add(ok ? 'field-ok' : 'field-bad');
+        if(!ok) bad++;
+      });
+      if(bad === 0) solvePuzzle(3, 'Stamp collected! 🌍 ' + ACTIVITY_CLUES.map(c=>c.show).join(' · '));
+      else failPuzzle(3, bad + ' answer(s) are not correct yet. Look at the word bank!');
+    } else if(n === 4){
+      let bad = 0;
+      TRAVELLERS.forEach((t,i)=>{
+        const el = document.getElementById('tv'+i);
+        const ok = el.value === t.a;
+        el.style.borderColor = el.value ? (ok ? 'var(--good)' : 'var(--bad)') : '';
+        if(!ok) bad++;
+      });
+      if(bad === 0) solvePuzzle(4, 'Stamp collected! ✅ Lena: Ushuaia · Tomás: Salta · Valeria: Mendoza');
+      else failPuzzle(4, bad + ' traveller(s) need a different trip. Check likes, dislikes and the weather!');
+    }
+  }
+  function showBoarding(){
+    const stars = (pzMistakes <= 3) ? 3 : (pzMistakes <= 8 ? 2 : 1);
+    const title = stars === 3 ? '🏆 Globetrotter' : (stars === 2 ? '🥈 Frequent Flyer' : '🌱 First-time Traveller');
+    const name = (document.getElementById('studentName')?.value || '').trim() || 'Explorer';
+    const seat = (1 + Math.floor(Math.random()*30)) + 'ABCDEF'.charAt(Math.floor(Math.random()*6));
+    const gate = 1 + Math.floor(Math.random()*9);
+    const b = document.getElementById('boarding');
+    b.style.display = 'block';
+    b.innerHTML = '<div class="bpass"><div class="bp-head">✈️ BOARDING PASS · UNLPAM EXCHANGE</div><div class="bp-grid">' +
+      '<div><small>Passenger</small><b>' + esc(name) + '</b></div>' +
+      '<div><small>From</small><b>Santa Rosa</b></div>' +
+      '<div><small>To</small><b>Your exchange city</b></div>' +
+      '<div><small>Gate</small><b>' + gate + '</b></div>' +
+      '<div><small>Seat</small><b>' + seat + '</b></div>' +
+      '<div><small>Stars</small><b>' + '⭐'.repeat(stars) + '</b></div></div>' +
+      '<p class="bp-msg"><strong>' + title + '!</strong> Mistakes: ' + pzMistakes + '. Tell your partner: which puzzle was the hardest for you, and why?</p></div>';
+  }
+
+  // ---------- 2. GRAMMAR ----------
+  function checkIngForms(){
+    checkText(
+      {gm1:["travelling","traveling"], gm2:["waiting"], gm3:["visiting"], gm4:["getting up"]},
+      {gm1:"travelling", gm2:"waiting", gm3:"visiting", gm4:"getting up"},
+      'fbgm'
+    );
+  }
+  function checkBecause(){
+    checkText(
+      {bc1:["i prefer the train because it's comfortable","i prefer the train because it is comfortable"],
+       bc2:["he doesn't like winter because it's very cold","he doesn't like winter because it is very cold"]},
+      {bc1:"I prefer the train because it's comfortable.", bc2:"He doesn't like winter because it's very cold."},
+      'fbbc', '<br>'
+    );
+  }
+  function checkLikes(){
+    checkSelects(
+      {gx1:"likes", gx2:"don't like", gx3:"Do", gx4:"do"},
+      {gx1:"likes", gx2:"don't like", gx3:"Do", gx4:"do"},
+      'fbgx'
+    );
+  }
+  function checkCan(){
+    checkText(
+      {cn1:["can"], cn2:["can"], cn3:["can't","cannot","can not"], cn4:["can"]},
+      {cn1:"can", cn2:"can", cn3:"can't", cn4:"Can"},
+      'fbcn'
+    );
+  }
+  function checkCanQ(){
+    checkText(
+      {cq1:["can you speak french"], cq2:["can students apply for an exchange"]},
+      {cq1:"Can you speak French?", cq2:"Can students apply for an exchange?"},
+      'fbcq', '<br>'
+    );
+  }
+  function checkQwords(){
+    checkSelects(
+      {qw1:"How", qw2:"What", qw3:"Which", qw4:"Why", qw5:"How often"},
+      {qw1:"How", qw2:"What", qw3:"Which", qw4:"Why", qw5:"How often"},
+      'fbqw'
+    );
+  }
+
+  // ---------- 3. READING ----------
+  const WHO = ["Ana","Marco","Both"];
+  const SERVICES = ["computer lab","International Office","library","sports centre"];
+  function checkReadTF(){
+    checkSelects(
+      {rt1:"False", rt2:"True", rt3:"True", rt4:"False", rt5:"False", rt6:"True"},
+      {rt1:"1 False (twice a year)", rt2:"2 True", rt3:"3 True", rt4:"4 False (it's cold, windy and rainy)", rt5:"5 False (she doesn't like planes)", rt6:"6 True"},
+      'fbrt', '<br>'
+    );
+  }
+  function checkWho(){
+    checkSelects(
+      {rw1:"Ana", rw2:"Marco", rw3:"Both", rw4:"Ana", rw5:"Marco", rw6:"Both"},
+      {rw1:"Ana", rw2:"Marco", rw3:"Both", rw4:"Ana", rw5:"Marco", rw6:"Both"},
+      'fbrw'
+    );
+  }
+  function checkServices(){
+    checkSelects(
+      {rs1:"International Office", rs2:"library", rs3:"computer lab", rs4:"sports centre"},
+      {rs1:"International Office", rs2:"library", rs3:"computer lab", rs4:"sports centre"},
+      'fbrs'
+    );
+  }
+  function checkReadQ(){
+    checkKeywords(
+      {rq1:["march","august"], rq2:["cheap"], rq3:["cold","windy","rainy"]},
+      {rq1:"In March and in August (twice a year)", rq2:"Because it's cheap (and she can see the landscape)", rq3:"Cold, windy and often rainy"},
+      'fbrq', '<br>'
+    );
+  }
+
+  // ---------- 4. LISTENING ----------
+  function checkListenForm(){
+    let correct = 0, total = 6;
+    const t = (id, test)=>{
+      const el = document.getElementById(id);
+      const val = normA(el.value);
+      const ok = test(val);
+      el.classList.remove('field-ok','field-bad');
+      if(val){ el.classList.add(ok ? 'field-ok' : 'field-bad'); }
+      if(ok) correct++;
+    };
+    t('li1', v => v.includes('geography'));
+    t('li3', v => v.includes('cloudy') || v.includes('rainy'));
+    t('li5', v => v.includes('30') || v.includes('thirty'));
+    t('li6', v => v.includes('tuesday') && v.includes('thursday'));
+    [['li2','Lisbon'],['li4','one semester']].forEach(p=>{
+      const el = document.getElementById(p[0]);
+      const ok = el.value === p[1];
+      el.style.borderColor = el.value ? (ok ? 'var(--good)' : 'var(--bad)') : '';
+      if(ok) correct++;
+    });
+    const fb = document.getElementById('fbl1');
+    fb.className = 'feedback ' + (correct===total ? 'ok' : 'warn') + ' show';
+    fb.innerHTML = correct+' / '+total+' correct.<br><strong>Correct answers:</strong> Geography · Lisbon · cloudy and rainy · one semester · 30% · Tuesdays and Thursdays';
+  }
+  function checkListenMC(){
+    checkSelects(
+      {lm1:"March and September", lm2:"she hates the rain", lm3:"train", lm4:"get a discount on buses and the metro", lm5:"English"},
+      {lm1:"1 March and September (not August)", lm2:"2 she hates the rain", lm3:"3 train", lm4:"4 get a discount on buses and the metro", lm5:"5 English"},
+      'fbl2', '<br>'
+    );
+  }
+  function checkListenYN(){
+    checkSelects(
+      {ly1:"No", ly2:"Yes", ly3:"Yes", ly4:"No", ly5:"No"},
+      {ly1:"1 No (the programme lasts one semester)", ly2:"2 Yes", ly3:"3 Yes", ly4:"4 No (March and September)", ly5:"5 No (Tuesdays and Thursdays)"},
+      'fbl3', '<br>'
+    );
+  }
+  function checkListenGaps(){
+    checkText(
+      {lg1:["hate"], lg2:["prefer"], lg3:["because"], lg4:["can"]},
+      {lg1:"hate", lg2:"prefer", lg3:"because", lg4:"can"},
+      'fbl4'
+    );
+  }
+
+  // ---------- 6. WRITING ----------
+  function updateWordCount(){
+    const box = document.getElementById('writingBox');
+    const words = box.value.trim().split(/\s+/).filter(Boolean).length;
+    document.getElementById('wordCount').textContent = words + ' words';
+  }
+
+  // ---------- AUTO-SAVE (browser storage) ----------
+  const STORAGE_KEY = 'unlpam_english_a1_unit4_likes_travel_exchanges';
+  let storageOK = true;
+  try{ localStorage.setItem('__test__','1'); localStorage.removeItem('__test__'); }catch(e){ storageOK = false; }
+
+  function fieldLabel(el){
+    if(el.tagName==='TEXTAREA') return 'A review for the Exchange Blog';
+    const row = el.closest('.item-row, div');
+    if(row && row.querySelector('.txt')) return row.querySelector('.txt').textContent.trim();
+    const prevLabel = el.parentElement?.querySelector('label');
+    if(prevLabel) return prevLabel.textContent.trim();
+    if(el.closest('li')) return el.closest('li').textContent.trim();
+    return el.id;
+  }
+  function collectAnswers(){
+    const data = {};
+    document.querySelectorAll('[data-save]').forEach(el=>{
+      data[el.id] = (el.type==='checkbox') ? el.checked : el.value;
+    });
+    return data;
+  }
+  function saveAnswers(){
+    if(!storageOK) return;
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(collectAnswers())); }catch(e){}
+  }
+  function loadAnswers(){
+    if(!storageOK) return;
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return;
+      const data = JSON.parse(raw);
+      document.querySelectorAll('[data-save]').forEach(el=>{
+        if(data[el.id] === undefined) return;
+        if(el.type==='checkbox'){ el.checked = data[el.id]; }
+        else { el.value = data[el.id]; }
+      });
+    }catch(e){}
+  }
+  function resetAnswers(){
+    if(!confirm('This will erase all your answers on this device. Continue?')) return;
+    document.querySelectorAll('[data-save]').forEach(el=>{
+      if(el.type==='checkbox'){ el.checked = false; } else { el.value = ''; }
+    });
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+    updateWordCount();
+  }
+  function studentSlug(){
+    const name = (document.getElementById('studentName')?.value || '').trim();
+    if(!name) return '';
+    return '-' + name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+  }
+  function printGuide(){
+    try{ window.print(); }
+    catch(e){ alert("Printing is blocked in this preview. Open the guide outside Claude (the downloaded file, or the GitHub-published page) and print from there."); }
+  }
+  function triggerDownload(filename, content, type){
+    try{
+      const blob = new Blob([content], {type: type});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      return true;
+    }catch(e){ copyFallback(content); return false; }
+  }
+  function copyFallback(content){
+    let copied = false;
+    try{
+      if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(content); copied = true; }
+    }catch(e){}
+    if(!copied){
+      try{
+        const ta = document.createElement('textarea');
+        ta.value = content; ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        copied = true;
+      }catch(e){}
+    }
+    alert(
+      "The download didn't start — this preview blocks file downloads.\n\n" +
+      (copied ? "Your text was copied to the clipboard instead — paste it (Ctrl+V) into a document.\n\n" : "") +
+      "To download normally: open the guide outside Claude (the file already shared in this chat, or the version published on GitHub) and use the button there."
+    );
+  }
+  function downloadAnswers(){
+    const name = (document.getElementById('studentName')?.value || '').trim();
+    let out = "LET'S TRAVEL! LIKES, TRIPS AND EXCHANGES — Unit 4 — English A1\n";
+    out += (name ? 'Student: ' + name + '\n' : '') + 'My answers\n' + '='.repeat(40) + '\n\n';
+    document.querySelectorAll('[data-save]').forEach(el=>{
+      if(el.id === 'studentName') return;
+      const label = fieldLabel(el);
+      const value = (el.type==='checkbox') ? (el.checked ? 'Yes' : 'No') : (el.value || '(not answered)');
+      out += '- ' + label + ': ' + value + '\n';
+    });
+    triggerDownload('my-answers-unit4' + studentSlug() + '.txt', out, 'text/plain');
+  }
+  function downloadGuide(){
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    triggerDownload('unit4-lets-travel' + studentSlug() + '.html', html, 'text/html');
+  }
+  function downloadWriting(){
+    const name = (document.getElementById('studentName')?.value || '').trim();
+    const text = document.getElementById('writingBox').value.trim();
+    if(!text){ alert('Write your review first!'); return; }
+    let out = 'A REVIEW FOR THE EXCHANGE BLOG\n';
+    out += (name ? name + '\n' : '') + '='.repeat(30) + '\n\n' + text + '\n';
+    triggerDownload('travel-review-unit4' + studentSlug() + '.txt', out, 'text/plain');
+  }
+
+  document.addEventListener('input', e=>{ if(e.target.matches('[data-save]')) saveAnswers(); });
+  document.addEventListener('change', e=>{ if(e.target.matches('[data-save]')) saveAnswers(); });
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    fillSelects('tfselect', ["True","False"]);
+    fillSelects('whoselect', WHO);
+    fillSelects('svcselect', SERVICES);
+    fillCustom();
+    buildPuzzles();
+    loadAnswers();
+    updateWordCount();
+    const statusEl = document.getElementById('saveStatusText');
+    const led = document.getElementById('saveLed');
+    if(!storageOK){
+      statusEl.textContent = 'Auto-save is not available in this preview — use "Download my answers" before you leave.';
+      led.style.background = 'var(--bad)';
+    }
+  });
+</script>
+</body>
+</html>
